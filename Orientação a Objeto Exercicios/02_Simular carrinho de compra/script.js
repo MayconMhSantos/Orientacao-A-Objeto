@@ -1,0 +1,75 @@
+class Carrinho {
+    constructor(itens, qtd, valorTotal){
+        this.itens = itens;
+        this.qtd = qtd;
+        this.valorTotal = valorTotal;
+    }
+
+    addItem(item){
+
+        // contador
+        let contador = 0;
+
+        for(let itemCarrinho in this.itens) { //criri uma variavel para queceber os valores do itens de classe da variavel itens.
+            if(this.itens[itemCarrinho].id == item.id){ //se o ID passado na nova variavel foi igual a ID ja existente entao acrescenta
+                this.itens[itemCarrinho].qtd += item.qtd;
+                contador = 1;
+            }
+        }
+
+        if(contador==0){
+            this.itens.push(item);
+        }
+
+        this.qtd += item.qtd; // adicionando a quantidade total de itens 
+        this.valorTotal += item.preco * item.qtd; // acrescentando mais unidades
+    }
+
+    removerItem(item)  {
+
+        for(let itemCarrinho in this.itens) {
+            if(this.itens[itemCarrinho].id == item.id) {
+
+                let obj = this.itens[itemCarrinho];
+                let index = this.itens.findIndex(function(obj) {return obj.id == item.id});
+
+                this.qtd -= this.itens[itemCarrinho].qtd;
+                this.valorTotal -= this.itens[itemCarrinho].preco * this.itens[itemCarrinho].qtd;
+
+                this.itens.splice(index, 1);
+            }
+        }
+
+    }
+
+}
+
+let carrinho = new Carrinho([
+    {
+        id: 01,
+        nome: 'camisa',
+        qtd: 1,
+        preco: 20
+    },
+    {
+        id: 02,
+        nome: 'calça',
+        qtd: 2,
+        preco: 50
+    }
+], 3, 120);
+
+console.log(carrinho);
+
+carrinho.addItem({id:01, nome:'camisa', qtd: 2, preco: 20});
+
+console.log(carrinho);
+
+carrinho.addItem({id:03, nome:'boné', qtd:1, preco: 15});
+
+console.log(carrinho);
+
+carrinho.removerItem({id: 01, nome:'camisa', qtd: 2, preco: 20});
+
+console.log(carrinho);
+
